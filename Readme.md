@@ -144,7 +144,7 @@ Verifies system health and connectivity.
 
 ### Local Setup
 
-1. Fork & Clone this repository
+1. Fork & Clone the repository
    ```bash
    git clone https://github.com/yourusername/ringg_rag.git
    cd ringg_rag
