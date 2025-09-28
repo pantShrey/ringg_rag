@@ -144,10 +144,10 @@ Verifies system health and connectivity.
 
 ### Local Setup
 
-1. Clone this repository
+1. Fork & Clone this repository
    ```bash
-   git clone https://github.com/yourusername/rag-system.git
-   cd rag-system
+   git clone https://github.com/yourusername/ringg_rag.git
+   cd ringg_rag
    ```
 
 2. Create a virtual environment
