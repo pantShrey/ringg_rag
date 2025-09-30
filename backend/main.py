@@ -23,7 +23,7 @@ app = FastAPI(
 origins = [
     "http://localhost:3000",
     "http://localhost",
-    "http://rag-api:8000",  # Add internal service communication
+    "https://ringg-rag-six.vercel.app/"",  # Remove in local development done only for my production deployment between vercel and render
 ]
 
 app.add_middleware(
