@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
-COPY requirements.txt .
+# Copy requirements from backend subdirectory
+COPY backend/requirements.txt .
 
 # Create and activate virtual environment
 RUN python -m venv /app/venv
@@ -21,8 +21,8 @@ ENV PATH="/app/venv/bin:$PATH"
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY . .
+# Copy application code from backend subdirectory
+COPY backend/ .
 
 # Create documents directory
 RUN mkdir -p documents

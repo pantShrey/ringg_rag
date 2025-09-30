@@ -40,7 +40,24 @@ async def upload_document(file: UploadFile = File(..., description="The document
             )
             
         file_path = f"temp_{file.filename}"
+        # Get Weaviate client
+        client = database.get_client()
+        collection = client.collections.get("Documents")
 
+        
+        try:
+            existing_objects = collection.query.fetch_objects(
+                filters=Filter.by_property("filename").equal(file.filename),
+                limit=1
+            )
+            
+            if existing_objects.objects:
+                return JSONResponse(
+                    status_code=status.HTTP_409_CONFLICT,
+                    content={"error": "Upload failed: file name already exists"}
+                )
+        except Exception as e:
+            print(f"Warning: Could not check for existing files: {str(e)}")
         # Save file temporarily
         with open(file_path, "wb") as f:
             f.write(await file.read())
@@ -50,17 +67,7 @@ async def upload_document(file: UploadFile = File(..., description="The document
         text = extract_text(file_path, file_type)
         chunks = chunk_text(text, file_type)
 
-        # Get Weaviate client
-        client = database.get_client()
-        collection = client.collections.get("Documents")
 
-        # Try deleting old embeddings (if they exist)
-        try:
-            collection.data.delete_many(
-                where=Filter.by_property("filename").like(file.filename)
-            )
-        except Exception as e:
-            print(f"Warning: Could not delete embeddings (possibly not found). {str(e)}")
 
         # Store new embeddings
         with collection.batch.dynamic() as batch:

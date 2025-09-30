@@ -1,27 +1,39 @@
-version: '3'
+version: '3.8'
 
 services:
   rag-api:
-    build: .
+    build:
+      context: .                    # Build context is root directory
+      dockerfile: Dockerfile        # Backend Dockerfile in root
     ports:
       - "8000:8000"
     env_file:
-      - .env
+      - .env                       # .env is in same directory as docker-compose.yml
     volumes:
       - ./documents:/app/documents
-  
+
   document-watcher:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: .                    # Build context is root directory  
+      dockerfile: Dockerfile        # Same backend Dockerfile
     command: python watcher_service.py
     env_file:
-      - .env
+      - .env                       # .env is in same directory as docker-compose.yml
     environment:
-      
       - WATCH_DIRECTORY=/app/documents
       - API_ENDPOINT=http://rag-api:8000/upload
     volumes:
       - ./documents:/app/documents
+    depends_on:
+      - rag-api
+
+  frontend:
+    build:
+      context: .                    # Build context is root directory
+      dockerfile: Dockerfile.frontend  # Frontend Dockerfile in root
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
     depends_on:
       - rag-api

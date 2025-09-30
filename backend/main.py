@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from routes import documents, query, system
+from fastapi.middleware.cors import CORSMiddleware
 import database
 
 # FastAPI App with metadata for Swagger UI
@@ -13,9 +14,24 @@ app = FastAPI(
     """,
     version="1.0.0",
     contact={
-        "name": "Shrey Pant",
+        "name": "Shrey Pant", 
         "email": "pantshrey01@gmail.com",
     },
+)
+
+# CORS configuration - FIXED SYNTAX
+origins = [
+    "http://localhost:3000",
+    "http://localhost",
+    "http://rag-api:8000",  # Add internal service communication
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Include routers
