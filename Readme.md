@@ -2,7 +2,29 @@
 
 A full-stack, containerized RAG system with a **Next.js/Tailwind CSS frontend** and a **FastAPI/Weaviate backend**. This application allows you to upload documents (PDF, DOCX, JSON, TXT), perform semantic search with AI, and extract numerical insights via JSON analytics—all orchestrated locally with Docker Compose.
 
- <!-- UI images and live link to be added -->
+## Live Demo
+[Try it out here!](https://ringg-rag-six.vercel.app/)
+
+### Testing Samples
+
+- **test_document.txt**
+Solar System description; query: “What is the Great Red Spot?”
+- **data.json**
+
+```json
+[
+  {"region":"North","sales":1500,"expenses":800,"profit":700},
+  {"region":"South","sales":1200,"expenses":600,"profit":600},
+  {"region":"East","sales":1700,"expenses":900,"profit":800}
+]
+```
+
+Analytics examples:
+    - Max `sales` → `1700`
+    - Avg `profit` → `700`
+    - Sum `expenses` → `2300`
+
+
 
 ## Key Features
 
